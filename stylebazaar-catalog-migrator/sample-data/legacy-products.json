@@ -1,0 +1,56 @@
+{
+"products": [
+{
+"sku_id": "SB-MEN-TS-001",
+"product_name": "Classic Cotton Crew Neck T-Shirt",
+"dept": "mens_apparel",
+"cat": "tshirts",
+"brand_name": "StyleBazaar Originals",
+"mrp": 899,
+"selling_price": 699,
+"currency": "INR",
+"available_sizes": ["S", "M", "L", "XL"],
+"color": "Navy Blue",
+"material": "100% Cotton",
+"weight_grams": 200,
+"images": [
+"https://legacy.stylebazaar.com/img/sb-men-ts-001-front.jpg",
+"https://legacy.stylebazaar.com/img/sb-men-ts-001-back.jpg"
+],
+"description": "A classic crew neck cotton t-shirt...",
+"inventory": {
+"warehouse_mumbai": { "S": 50, "M": 120, "L": 80, "XL": 30 },
+"warehouse_delhi": { "S": 20, "M": 60, "L": 40, "XL": 15 }
+},
+"hsn_code": "6109",
+"gst_percentage": 5,
+"is_active": true,
+"tags": ["casual", "summer", "cotton", "bestseller"]
+},
+{
+"sku_id": "SB-WOM-DR-045",
+"product_name": "Floral Printed Wrap Dress",
+"dept": "womens_apparel",
+"cat": "dresses",
+"brand_name": "StyleBazaar Originals",
+"mrp": 2499,
+"selling_price": 1899,
+"currency": "INR",
+"available_sizes": ["XS", "S", "M", "L"],
+"color": "Dusty Rose",
+"material": "Rayon",
+"weight_grams": 350,
+"images": [
+"https://legacy.stylebazaar.com/img/sb-wom-dr-045-1.jpg"
+],
+"description": "A flattering wrap dress with floral print...",
+"inventory": {
+"warehouse_mumbai": { "XS": 15, "S": 30, "M": 45, "L": 20 }
+},
+"hsn_code": "6204",
+"gst_percentage": 12,
+"is_active": true,
+"tags": ["ethnic", "floral", "party", "trending"]
+}
+]
+}
