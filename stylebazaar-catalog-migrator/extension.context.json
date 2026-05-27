@@ -3,5 +3,6 @@
     "EXTENSION_API_SECRET": "0PXo5.5W2iyh-wk",
     "LAUNCH_TYPE": "company",
     "CURRENT_ENV": "api.fynd.com",
-    "DEVELOPMENT_COMPANY": 15445
+    "DEVELOPMENT_COMPANY": 15445,
+    "EXTENSION_BASE_URL": "https://reporter-watching-serves-told.trycloudflare.com"
 }

@@ -22,7 +22,7 @@
 "warehouse_mumbai": { "S": 50, "M": 120, "L": 80, "XL": 30 },
 "warehouse_delhi": { "S": 20, "M": 60, "L": 40, "XL": 15 }
 },
-"hsn_code": "6109",
+"hsn_code": "61091000",
 "gst_percentage": 5,
 "is_active": true,
 "tags": ["casual", "summer", "cotton", "bestseller"]
@@ -47,7 +47,7 @@
 "inventory": {
 "warehouse_mumbai": { "XS": 15, "S": 30, "M": 45, "L": 20 }
 },
-"hsn_code": "6204",
+"hsn_code": "62040000",
 "gst_percentage": 12,
 "is_active": true,
 "tags": ["ethnic", "floral", "party", "trending"]

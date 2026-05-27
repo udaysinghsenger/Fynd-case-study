@@ -9,7 +9,7 @@ const { setupFdk } = require("@gofynd/fdk-extension-javascript/express");
 const { SQLiteStorage } = require("@gofynd/fdk-extension-javascript/express/storage");
 const sqliteInstance = new sqlite3.Database('session_storage.db');
 const productRouter = express.Router();
-
+const registerHsnCodes = require("./test/utils/registerHsn");
 
 const fdkExtension = setupFdk({
     api_key: process.env.EXTENSION_API_KEY,
@@ -18,7 +18,7 @@ const fdkExtension = setupFdk({
     cluster: process.env.FP_API_DOMAIN,
     callbacks: {
         auth: async (req) => {
-            // Write you code here to return initial launch url after auth process complete
+            
             if (req.query.application_id)
                 return `${req.extension.base_url}/company/${req.query['company_id']}/application/${req.query.application_id}`;
             else
@@ -26,8 +26,7 @@ const fdkExtension = setupFdk({
         },
         
         uninstall: async (req) => {
-            // Write your code here to cleanup data related to extension
-            // If task is time taking then process it async on other process.
+           
         }
     },
     storage: new SQLiteStorage(sqliteInstance,"exapmple-fynd-platform-extension"), // add your prefix
@@ -51,21 +50,16 @@ const STATIC_PATH = process.env.NODE_ENV === 'production'
 const app = express();
 const platformApiRoutes = fdkExtension.platformApiRoutes;
 
-// Middleware to parse cookies with a secret key
 app.use(cookieParser("ext.session"));
 
-// Middleware to parse JSON bodies with a size limit of 2mb
 app.use(bodyParser.json({
     limit: '2mb'
 }));
 
-// Serve static files from the React dist directory
 app.use(serveStatic(STATIC_PATH, { index: false }));
 app.use("/api", platformApiRoutes);
 
-// FDK extension handler and API routes (extension launch routes)
 app.use("/", fdkExtension.fdkHandler);
-// Route to handle webhook events and process it.
 app.post('/api/webhook-events', async function(req, res) {
     try {
       console.log(`Webhook Event: ${req.body.event} received`)
@@ -89,7 +83,6 @@ productRouter.get('/', async function view(req, res, next) {
     }
 });
 
-// Get products list for application
 productRouter.get('/application/:application_id', async function view(req, res, next) {
     try {
         const {
@@ -103,7 +96,6 @@ productRouter.get('/application/:application_id', async function view(req, res, 
     }
 });
 
-// FDK extension api route which has auth middleware and FDK client instance attached to it.
 platformApiRoutes.use('/products', productRouter);
 
 const fs = require("fs");
@@ -121,6 +113,10 @@ platformApiRoutes.post('/run-migration', async (req, res) => {
 
         const jsonData = JSON.parse(rawData);
 
+        await registerHsnCodes(
+            platformClient,
+            jsonData.products
+        );
         const transformedProducts = transformProducts(jsonData);
         const createdProducts = [];
 
@@ -164,10 +160,7 @@ for (const product of transformedProducts) {
         });
     }
 });
-// If you are adding routes outside of the /api path, 
-// remember to also add a proxy rule for them in /frontend/vite.config.js
 
-// Serve the React app for all other routes
 if (process.env.NODE_ENV === "production") {
 
     app.get('*', (req, res) => {

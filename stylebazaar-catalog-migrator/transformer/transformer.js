@@ -28,23 +28,24 @@ function transformProducts(data) {
 
     existingSkus.add(product.sku_id);
 
-    let taxRule = "Standard Tax Rule – 18% (Eff. 22 Sep 2025)";
+    let taxRuleId = "";
 
-    if (product.gst_percentage === 5) {
-      taxRule = "Merit Tax Rule – 5% (Eff. 22 Sep 2025)";
-    } else if (product.gst_percentage === 12) {
-      taxRule = "Tiered Tax Rule 6 – 12% and 18%";
-    }
+if (product.gst_percentage === 5) {
+
+  taxRuleId = "6a16107071e16ade1bf962da";
+
+} else if (product.gst_percentage === 12) {
+
+  taxRuleId = "6a1610cd76cace0b92af8786";
+
+}
 
     const transformedProduct = {
       name: product.product_name,
 
-      // Product description preserved from legacy system.
-      // Platform-side Supplementary template validation
-      // currently rejects description formatting despite
-      // schema reporting string compatibility.
-
-      description: product.description || "",
+      description: Buffer.from(
+  `<p>${product.description}</p>`
+).toString("base64"),
 
       item_code: product.sku_id,
 
@@ -54,11 +55,12 @@ function transformProducts(data) {
 
       company_id: 15445,
 
-      departments: [1],
+      departments: [8],
 
       item_type: "standard",
 
       template_tag: "supplementary",
+      category_slug: "others-level-3",
 
       country_of_origin: "India",
 
@@ -78,9 +80,11 @@ function transformProducts(data) {
         }
       ],
 
-      tax_identifier: {
-        reporting_hsn: product.hsn_code || "6109"
-      },
+tax_identifier: {
+  tax_rule_id: taxRuleId
+},
+
+hs_code: product.hsn_code,
 
       return_config: {
         returnable: true,
@@ -90,8 +94,7 @@ function transformProducts(data) {
         unit: "days"
       },
 
-      category_slug:
-        CATEGORY_MAPPING[product.dept] || "others",
+    
 
       media: product.images.map((img) => ({
         type: "image",
@@ -108,7 +111,7 @@ function transformProducts(data) {
 
         identifiers: [
           {
-            gtin_type: "SKU",
+            gtin_type: "sku_code",
 
             gtin_value: `${product.sku_id}-${size}`,
 
